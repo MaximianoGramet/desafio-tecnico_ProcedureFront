@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import PdfUploadForm from "./PdfUploadForm";
 import { createTask } from "../api/api";
+import { useLocation } from "wouter";
 
 const FormComponent = () => {
   const getCurrentDate = () => {
@@ -11,21 +11,15 @@ const FormComponent = () => {
     return `${yyyy}-${mm}-${dd}`;
   };
 
+  const [location, setLocation] = useLocation();
+
   const [formData, setFormData] = useState({
     name: "",
-    dni: "",
     date: getCurrentDate(),
     email: "",
     age: 0,
     terms: false,
   });
-
-  const handlePdfUpload = (dni) => {
-    setFormData({
-      ...formData,
-      dni,
-    });
-  };
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -37,7 +31,12 @@ const FormComponent = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    createTask(formData);
+    try {
+      createTask(formData);
+      setLocation("/user/dni");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -59,9 +58,6 @@ const FormComponent = () => {
             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  d"
             required
           />
-        </div>
-        <div>
-          <PdfUploadForm onPdfUpload={handlePdfUpload} />
         </div>
         <div className="mb-5">
           <label
@@ -140,7 +136,7 @@ const FormComponent = () => {
           type="submit"
           className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
         >
-          Enviar Formulario
+          Suguiente
         </button>
       </form>
     </div>

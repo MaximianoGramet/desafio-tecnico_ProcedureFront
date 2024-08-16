@@ -8,19 +8,18 @@ function PdfUploadForm({ onPdfUpload }) {
     setFile(selectedFile);
 
     if (selectedFile) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const pdfString = reader.result.split(",")[1]; // Get the base64 string
-        onPdfUpload(pdfString); // Pass the PDF string to the parent component
-      };
-      reader.readAsDataURL(selectedFile); // Read the file as a data URL
+      onPdfUpload(selectedFile);
     }
   };
 
   return (
     <form className="block mb-2 text-sm font-medium text-gray-900">
-      <label htmlFor="pdfUpload">Seleccione un PDF de su DNI:</label>
+      <label className="m-5" htmlFor="pdfUpload">
+        Seleccione un PDF de su DNI:
+      </label>
+      <br />
       <input
+        className="m-5"
         type="file"
         id="pdfUpload"
         accept="application/pdf"
