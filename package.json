@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@headlessui/react": "^2.1.2",
+    "@heroicons/react": "^2.1.5",
     "classnames": "^2.5.1",
     "cors": "^2.8.5",
     "multer": "^1.4.5-lts.1",

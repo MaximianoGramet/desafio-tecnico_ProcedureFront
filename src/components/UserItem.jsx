@@ -4,12 +4,16 @@ import StatusChanger from "./StatusChanger";
 import classNames from "classnames";
 import { updateTask } from "../api/api";
 
-const UserItem = ({ id, email, age, name, status, setStatus, UserComment }) => {
+const UserItem = ({ id, email, age, name, status, UserComment }) => {
   const [location] = useLocation();
   const [comment, setComment] = useState("");
+  const [newStatus, setNewStatus] = useState(status);
 
   const handleCommentChange = (e) => {
     setComment(e.target.value);
+  };
+  const handleStatusChange = (newStatus) => {
+    setNewStatus(newStatus);
   };
 
   const saveComment = async () => {
@@ -38,11 +42,11 @@ const UserItem = ({ id, email, age, name, status, setStatus, UserComment }) => {
           <strong>Edad:</strong> {age}
         </p>
         <p className={`mb-2 ${statusClass}`}>
-          <strong>Estado:</strong> {status}
+          <strong>Estado:</strong> {newStatus}
         </p>
         {location !== "/Request" && (
           <div className="overflow-y-auto">
-            <StatusChanger id={id} onStatusChange={setStatus} />
+            <StatusChanger id={id} onStatusChange={handleStatusChange} />
             <textarea
               value={comment}
               onChange={handleCommentChange}

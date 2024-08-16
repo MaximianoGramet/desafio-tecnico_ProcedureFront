@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { createTask } from "../api/api";
 import { useLocation } from "wouter";
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
 const FormComponent = () => {
   const getCurrentDate = () => {
@@ -17,10 +19,18 @@ const FormComponent = () => {
     name: "",
     date: getCurrentDate(),
     email: "",
-    age: 0,
+    age: 2,
     terms: false,
+    localidad: "",
+    category: "",
   });
-
+  const handleChangeSelect = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
@@ -28,9 +38,10 @@ const FormComponent = () => {
       [name]: type === "checkbox" ? checked : value,
     });
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(formData);
+
     try {
       createTask(formData);
       setLocation("/user/dni");
@@ -93,6 +104,43 @@ const FormComponent = () => {
             required
           />
         </div>
+        <div>
+          <label
+            htmlFor="localidad"
+            className="block mb-2 text-sm font-medium text-gray-900"
+          >
+            Localidad:
+          </label>
+          <input
+            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            type="text"
+            name="localidad"
+            id="localidad"
+            value={formData.localidad}
+            onChange={handleChange}
+          />
+        </div>
+
+        <label className="block mt-2 mb-2 text-sm font-medium text-gray-900">
+          Categoría:
+        </label>
+        <div className="sm:col-span-3">
+          <div className="mt-2">
+            <select
+              value={formData.category}
+              onChange={handleChangeSelect}
+              id="category"
+              name="category"
+              className="mb-3 bshadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            >
+              <option value="interés social">Interés social</option>
+              <option value="cultural">Cultural</option>
+              <option value="educativo">Educativo</option>
+              <option value="beneficio">Beneficio</option>
+              <option value="comercial">Comercial</option>
+            </select>
+          </div>
+        </div>
         <div className="mb-5">
           <label
             htmlFor="age"
@@ -136,7 +184,7 @@ const FormComponent = () => {
           type="submit"
           className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
         >
-          Suguiente
+          Siguiente
         </button>
       </form>
     </div>
